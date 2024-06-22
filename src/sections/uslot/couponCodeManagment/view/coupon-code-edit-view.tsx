@@ -1,7 +1,7 @@
 // @mui
 import Container from '@mui/material/Container';
 // routes
-import { paths } from 'src/routes/paths';
+import { paths, uslotPath } from 'src/routes/paths';
 import { useParams } from 'src/routes/hook';
 // _mock
 import { _userList } from 'src/_mock';
@@ -42,7 +42,7 @@ export default function CouponCodeEditView() {
           },
           {
             name: 'Coupon Managment',
-            href: paths.dashboard.user.root,
+            href: uslotPath.couponcodemanagment,
           },
           { name: currentUser?.name },
         ]}

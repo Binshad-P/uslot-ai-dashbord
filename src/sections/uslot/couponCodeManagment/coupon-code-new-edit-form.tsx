@@ -17,7 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 // utils
 import { fData } from 'src/utils/format-number';
 // routes
-import { paths } from 'src/routes/paths';
+import { paths, uslotPath } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hook';
 // types
 import { CouponItem } from 'src/types/user';
@@ -56,7 +56,6 @@ export default function CouponCodeNewEditForm({ currentUser }: Props) {
     currentUser?.expiry_date && new Date(currentUser.expiry_date)
   );
 
-  console.log(expiryDate, '1021');
 
   const router = useRouter();
 
@@ -108,7 +107,7 @@ export default function CouponCodeNewEditForm({ currentUser }: Props) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
 
-      router.push(paths.dashboard.user.list);
+      router.push(uslotPath.couponcodemanagment);
 
       if (currentUser?.id) {
         // If data.id is present, it's an edit operation

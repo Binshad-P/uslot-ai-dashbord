@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 // routes
-import { paths } from 'src/routes/paths';
+import { paths, uslotPath } from 'src/routes/paths';
 // locales
 import { useLocales } from 'src/locales';
 // components
@@ -97,13 +97,13 @@ export function useNavData() {
           //coupon code managment
           {
             title: t('Coupon Managment'),
-            path: paths.dashboard.user.root,
+            path: uslotPath.couponcodemanagment,
             icon: ICONS.label,
             children: [
               // { title: t('profile'), path: paths.dashboard.user.root },
               // { title: t('cards'), path: paths.dashboard.user.cards },
-              { title: t('list'), path: paths.dashboard.user.list },
-              { title: t('create'), path: paths.dashboard.user.new },
+              { title: t('list'), path: uslotPath.couponcodemanagment },
+              { title: t('create'), path: uslotPath.newcouponcodemanagment },
               // { title: t('edit'), path: paths.dashboard.user.demo.edit },
               // { title: t('account'), path: paths.dashboard.user.account },
             ],

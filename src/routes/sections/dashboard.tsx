@@ -106,6 +106,14 @@ export const dashboardRoutes = [
           // { path: 'account', element: <UserAccountPage /> },
         ],
       },
+
+
+      { path: 'coupon-code-management', element: <CouponCodeListPage /> }, //  /dashboard/usermanagement
+      { path: 'coupon-code-management/new', element: <CouponCodeCreatePage /> }, // /dashboard/usermanagement/new
+      { path: 'coupon-code-management/:id/edit', element: <CouponCodeEditPage /> },
+
+
+
       {
         path: 'coupon_code',
         children: [

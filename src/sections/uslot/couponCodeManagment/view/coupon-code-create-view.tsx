@@ -1,7 +1,7 @@
 // @mui
 import Container from '@mui/material/Container';
 // routes
-import { paths } from 'src/routes/paths';
+import { paths, uslotPath } from 'src/routes/paths';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
@@ -24,7 +24,7 @@ export default function CouponCodeCreateView() {
           },
           {
             name: 'Coupon Managment',
-            href: paths.dashboard.user.root,
+            href: uslotPath.couponcodemanagment,
           },
           { name: 'New user' },
         ]}

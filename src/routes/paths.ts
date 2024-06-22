@@ -108,7 +108,6 @@ export const paths = {
       file: `${ROOTS.DASHBOARD}/file`,
     },
 
-
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
       new: `${ROOTS.DASHBOARD}/user/new`,
@@ -122,21 +121,7 @@ export const paths = {
       },
     },
 
-
-    // coupon_code: {
-    //   root: `${ROOTS.DASHBOARD}/coupon-code`,
-    //   new: `${ROOTS.DASHBOARD}/coupon-code/new`,
-    //   list: `${ROOTS.DASHBOARD}/coupon-code/list`,
-    //   cards: `${ROOTS.DASHBOARD}/coupon-code/cards`,
-    //   profile: `${ROOTS.DASHBOARD}/coupon-code/profile`,
-    //   account: `${ROOTS.DASHBOARD}/coupon-code/account`,
-    //   edit: (id: string) => `${ROOTS.DASHBOARD}/coupon-code/${id}/edit`,
-    //   demo: {
-    //     edit: `${ROOTS.DASHBOARD}/coupon-code/${MOCK_ID}/edit`,
-    //   },
-    // },
-
-
+  
 
     product: {
       root: `${ROOTS.DASHBOARD}/product`,
@@ -196,4 +181,12 @@ export const paths = {
       },
     },
   },
+};
+
+export const uslotPath = {
+  root: '/dashboard',
+
+  couponcodemanagment: '/dashboard/coupon-code-management',
+  newcouponcodemanagment: '/dashboard/coupon-code-management/new',
+  edit: (id?: string) => `/dashboard/coupon-code-management/${id}/edit`,
 };

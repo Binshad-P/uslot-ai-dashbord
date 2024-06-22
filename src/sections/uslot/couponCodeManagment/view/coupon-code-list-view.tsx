@@ -13,7 +13,7 @@ import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // routes
-import { paths } from 'src/routes/paths';
+import { paths,uslotPath } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hook';
 import { RouterLink } from 'src/routes/components';
 // _mock
@@ -151,7 +151,7 @@ export default function CouponCodeListView() {
 
   const handleEditRow = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.user.edit(id));
+      router.push(uslotPath.edit(id));
     },
     [router]
   );
@@ -174,13 +174,13 @@ export default function CouponCodeListView() {
           heading="List"
           links={[
             { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Coupon Managment', href: paths.dashboard.user.root },
+            { name: 'Coupon Managment', href:uslotPath.couponcodemanagment },
             { name: 'List' },
           ]}
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.user.new}
+              href={uslotPath.newcouponcodemanagment}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
