@@ -12,24 +12,6 @@ export const allLangs = [
     icon: 'flagpack:gb-nir',
   },
   {
-    label: 'French',
-    value: 'fr',
-    systemValue: frFR,
-    icon: 'flagpack:fr',
-  },
-  {
-    label: 'Vietnamese',
-    value: 'vi',
-    systemValue: viVN,
-    icon: 'flagpack:vn',
-  },
-  {
-    label: 'Chinese',
-    value: 'cn',
-    systemValue: zhCN,
-    icon: 'flagpack:cn',
-  },
-  {
     label: 'Arabic',
     value: 'ar',
     systemValue: arSA,

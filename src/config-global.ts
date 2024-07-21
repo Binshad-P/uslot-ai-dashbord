@@ -32,8 +32,8 @@ export const AUTH0_API = {
 export const MAPBOX_API = import.meta.env.VITE_MAPBOX_API;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = paths.dashboard.order.root; // as '/dashboard'
+export const PATH_AFTER_LOGIN = paths.dashboard.root; // as '/dashboard'
 
 
 // uslot base url
-export const uslotBaseURL="http://localhost:5000"
+export const uslotBaseURL="http://15.207.159.83:4000"

@@ -72,27 +72,27 @@ export function useNavData() {
         subheader: t('management'),
         items: [
           // USER managment
-          {
-            title: t('user managment'),
-            path: paths.dashboard.order.root,
-            icon: ICONS.user,
-            children: [
-              { title: t('list'), path: paths.dashboard.order.root },
-              // { title: t('details'), path: paths.dashboard.order.demo.details },
-            ],
-          },
-          //User Score
-          {
-            title: t('user score'),
-            path: paths.dashboard.invoice.root,
-            icon: ICONS.analytics,
-            children: [
-              { title: t('list'), path: paths.dashboard.invoice.root },
-              // { title: t('details'), path: paths.dashboard.invoice.demo.details },
-              // { title: t('create'), path: paths.dashboard.invoice.new },
-              // { title: t('edit'), path: paths.dashboard.invoice.demo.edit },
-            ],
-          },
+          // {
+          //   title: t('user managment'),
+          //   path: paths.dashboard.order.root,
+          //   icon: ICONS.user,
+          //   children: [
+          //     { title: t('list'), path: paths.dashboard.order.root },
+          //     // { title: t('details'), path: paths.dashboard.order.demo.details },
+          //   ],
+          // },
+          // //User Score
+          // {
+          //   title: t('user score'),
+          //   path: paths.dashboard.invoice.root,
+          //   icon: ICONS.analytics,
+          //   children: [
+          //     { title: t('list'), path: paths.dashboard.invoice.root },
+          //     // { title: t('details'), path: paths.dashboard.invoice.demo.details },
+          //     // { title: t('create'), path: paths.dashboard.invoice.new },
+          //     // { title: t('edit'), path: paths.dashboard.invoice.demo.edit },
+          //   ],
+          // },
 
           //coupon code managment
           {
