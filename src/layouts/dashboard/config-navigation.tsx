@@ -96,7 +96,7 @@ export function useNavData() {
 
           //coupon code managment
           {
-            title: t('Coupon Managment'),
+            title: t('Coupon management'),
             path: uslotPath.couponcodemanagment,
             icon: ICONS.label,
             children: [

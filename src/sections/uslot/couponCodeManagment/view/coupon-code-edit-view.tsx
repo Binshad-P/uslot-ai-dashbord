@@ -41,7 +41,7 @@ export default function CouponCodeEditView() {
             href: paths.dashboard.root,
           },
           {
-            name: 'Coupon Managment',
+            name: 'Coupon Management',
             href: uslotPath.couponcodemanagment,
           },
           { name: currentUser?.name },

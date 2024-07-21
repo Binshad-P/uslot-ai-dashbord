@@ -174,7 +174,7 @@ export default function CouponCodeListView() {
           heading="List"
           links={[
             { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Coupon Managment', href:uslotPath.couponcodemanagment },
+            { name: 'Coupon Management', href:uslotPath.couponcodemanagment },
             { name: 'List' },
           ]}
           action={

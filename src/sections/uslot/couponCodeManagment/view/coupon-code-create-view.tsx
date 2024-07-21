@@ -23,7 +23,7 @@ export default function CouponCodeCreateView() {
             href: paths.dashboard.root,
           },
           {
-            name: 'Coupon Managment',
+            name: 'Coupon Management',
             href: uslotPath.couponcodemanagment,
           },
           { name: 'New user' },
