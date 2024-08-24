@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import isEqual from 'lodash/isEqual';
+import { useState, useCallback, useEffect } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -12,12 +13,11 @@ import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // routes
-import { paths } from 'src/routes/paths';
+import { paths,uslotPath } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hook';
+import { RouterLink } from 'src/routes/components';
 // _mock
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
-// utils
-import { fTimestamp } from 'src/utils/format-time';
+import { _userList, _roles, Demo_STATUS_OPTIONS } from 'src/_mock';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
@@ -38,36 +38,57 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 // types
-import { IOrderItem, IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import { CouponCodeItem, IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
 //
-import UserTableRow from '../user-table-row';
+
+
+import CustomerSupportTableRow from '../customer-support-table-row';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import {  listCouponCodeManagment } from 'src/api/Uslot/couponCodeManagment';
 import UserTableToolbar from '../user-table-toolbar';
-import UserTableFiltersResult from '../user-table-filter-result';
+
+
+// import UserTableToolbar from '../user-table-toolbar';
+// import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...Demo_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'no', label: 'SL No', width: 116 },
-  { id: 'id', label: 'ID', width: 116 },
-  { id: 'name', label: 'Name', },
-  { id: 'createdAt', label: 'Date',  },
-  { id: 'paid_status', label: 'Paid Status', },
-  { id: 'status', label: 'Status', },
+  { id: 'SINO', label: 'Sl No' ,width: 80},
+  { id: 'name', label: 'Name',width: 180 },
+  { id: 'query', label: 'Query', width: 180 },
+  { id: 'status', label: 'Status', width: 100 },
+  { id: 'create_date', label: 'Create Date', width: 100 },
+  { id: 'closed date', label: 'Closed Date', width: 120 },
+  { id: 'notes', label: 'Notes', width: 100 },
+
+ 
 ];
 
-const defaultFilters: IOrderTableFilters = {
+const defaultFilters: IUserTableFilters = {
   name: '',
+  role: [],
   status: 'all',
-  startDate: null,
-  endDate: null,
 };
 
 // ----------------------------------------------------------------------
 
-export default function UserListView() {
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+export default function CustomerSupportListView() {
+
+  const { AllCouponCodeList,isDeleted } = useSelector((state: RootState) => state.app);
+
+  useEffect(()=>{
+    listCouponCodeManagment()
+  },[isDeleted])
+
+
+
+
+
+  const table = useTable();
 
   const settings = useSettingsContext();
 
@@ -75,20 +96,14 @@ export default function UserListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_orders);
+  const [tableData, setTableData] = useState(_userList);
 
-  const [filters, setFilters] = useState(defaultFilters);
-
-  const dateError =
-    filters.startDate && filters.endDate
-      ? filters.startDate.getTime() > filters.endDate.getTime()
-      : false;
+  const [filters, setFilters] = useState({ searchKey: '', currTab: '' });
 
   const dataFiltered = applyFilter({
-    inputData: tableData,
+    inputData: AllCouponCodeList,
     comparator: getComparator(table.order, table.orderBy),
     filters,
-    dateError,
   });
 
   const dataInPage = dataFiltered.slice(
@@ -98,13 +113,12 @@ export default function UserListView() {
 
   const denseHeight = table.dense ? 52 : 72;
 
-  const canReset =
-    !!filters.name || filters.status !== 'all' || (!!filters.startDate && !!filters.endDate);
+  const canReset = !isEqual(defaultFilters, filters);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name: string, value: IOrderTableFilterValue) => {
+    (name: string, value: IUserTableFilterValue) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -135,13 +149,9 @@ export default function UserListView() {
     });
   }, [dataFiltered.length, dataInPage.length, table, tableData]);
 
-  const handleResetFilters = useCallback(() => {
-    setFilters(defaultFilters);
-  }, []);
-
-  const handleViewRow = useCallback(
+  const handleEditRow = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.order.details(id));
+      router.push(uslotPath.edit(id));
     },
     [router]
   );
@@ -153,30 +163,28 @@ export default function UserListView() {
     [handleFilters]
   );
 
+  
+
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="List"
           links={[
-            {
-              name: 'Dashboard',
-              href: paths.dashboard.root,
-            },
-            {
-              name: 'User',
-              href: paths.dashboard.order.root,
-            },
+            { name: 'Dashboard', href: paths.dashboard.root },
+            { name: 'Customer Support', href:uslotPath.customersupport },
             { name: 'List' },
           ]}
+        
           sx={{
             mb: { xs: 3, md: 5 },
           }}
         />
 
         <Card>
-          {/* <Tabs
-            value={filters.status}
+          <Tabs
+            // value={filters.status}
+            value={filters.currTab}
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
@@ -192,40 +200,41 @@ export default function UserListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      // ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === 'all' || tab.value === filters.currTab) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'paid' && 'success') ||
-                      (tab.value === 'unpaid' && 'error') ||
-                      (tab.value === 'cancelled' && 'error') ||
+                      (tab.value === 'active' && 'success') ||
+                      (tab.value === 'pending' && 'warning') ||
+                      (tab.value === 'banned' && 'error') ||
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _orders.length}
-                    {tab.value === 'completed' &&
-                      _orders.filter((order) => order.status === 'completed').length}
+                    {tab.value === 'all' && _userList.length}
+                    {tab.value === 'active' &&
+                      _userList.filter((user) => user.status === 'active').length}
 
                     {tab.value === 'pending' &&
-                      _orders.filter((order) => order.status === 'pending').length}
-                    {tab.value === 'cancelled' &&
-                      _orders.filter((order) => order.status === 'cancelled').length}
-                    {tab.value === 'refunded' &&
-                      _orders.filter((order) => order.status === 'refunded').length}
+                      _userList.filter((user) => user.status === 'pending').length}
+                    {tab.value === 'banned' &&
+                      _userList.filter((user) => user.status === 'banned').length}
+                    {tab.value === 'rejected' &&
+                      _userList.filter((user) => user.status === 'rejected').length}
                   </Label>
                 }
               />
             ))}
-          </Tabs> */}
-{/* 
+          </Tabs>
+
           <UserTableToolbar
             filters={filters}
             onFilters={handleFilters}
             //
-            canReset={canReset}
-            onResetFilters={handleResetFilters}
-          /> */}
+            setFilters={setFilters}
+            roleOptions={_roles}
+          />
 
-          {canReset && (
+          {/* {canReset && (
             <UserTableFiltersResult
               filters={filters}
               onFilters={handleFilters}
@@ -235,10 +244,10 @@ export default function UserListView() {
               results={dataFiltered.length}
               sx={{ p: 2.5, pt: 0 }}
             />
-          )}
+          )} */}
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <TableSelectedAction
+            {/* <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
               rowCount={tableData.length}
@@ -255,7 +264,7 @@ export default function UserListView() {
                   </IconButton>
                 </Tooltip>
               }
-            />
+            /> */}
 
             <Scrollbar>
               <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
@@ -265,13 +274,13 @@ export default function UserListView() {
                   headLabel={TABLE_HEAD}
                   rowCount={tableData.length}
                   numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.id)
-                    )
-                  }
+                  // onSort={table.onSort}
+                  // onSelectAllRows={(checked) =>
+                  //   table.onSelectAllRows(
+                  //     checked,
+                  //     tableData.map((row) => row.id)
+                  //   )
+                  // }
                 />
 
                 <TableBody>
@@ -280,14 +289,15 @@ export default function UserListView() {
                       table.page * table.rowsPerPage,
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
-                    .map((row) => (
-                      <UserTableRow
+                    .map((row,index) => (
+                      <CustomerSupportTableRow
                         key={row.id}
                         row={row}
+                        index={index}
                         selected={table.selected.includes(row.id)}
                         onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
                       />
                     ))}
 
@@ -343,19 +353,18 @@ export default function UserListView() {
 
 // ----------------------------------------------------------------------
 
+
+
+
 function applyFilter({
   inputData,
   comparator,
   filters,
-  dateError,
 }: {
-  inputData: IOrderItem[];
+  inputData: CouponCodeItem[];
   comparator: (a: any, b: any) => number;
-  filters: IOrderTableFilters;
-  dateError: boolean;
+  filters: { searchKey: string; currTab: string };
 }) {
-  const { status, name, startDate, endDate } = filters;
-
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
   stabilizedThis.sort((a, b) => {
@@ -366,27 +375,16 @@ function applyFilter({
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if (name) {
-    inputData = inputData.filter(
-      (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
-    );
-  }
+  if (filters.searchKey) {
+    inputData = inputData.filter((item) => {
+      const searchKey = filters.searchKey.toLowerCase();
+      const nameMatch = (item?.name || '').toLowerCase().includes(searchKey);
+      // const sendercodeMatch = (finance?.sender.code || '').toLowerCase().includes(searchKey);
+      // const typeMatch = (finance?.revenue_type || '').toLowerCase().includes(searchKey);
+      // const descriptionMatch = (finance?.description || '').toLowerCase().includes(searchKey);
 
-  if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
-  }
-
-  if (!dateError) {
-    if (startDate && endDate) {
-      inputData = inputData.filter(
-        (order) =>
-          fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
-      );
-    }
+      return nameMatch;
+    });
   }
 
   return inputData;

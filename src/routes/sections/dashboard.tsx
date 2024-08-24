@@ -44,6 +44,11 @@ const UserScoreListPage = lazy(() => import('src/pages/Uslot/userScore/list'));
 const CouponCodeListPage = lazy(() => import('src/pages/Uslot/couponCodeManagment/lsit'));
 const CouponCodeCreatePage = lazy(() => import('src/pages/Uslot/couponCodeManagment/new'));
 const CouponCodeEditPage = lazy(() => import('src/pages/Uslot/couponCodeManagment/edit'));
+
+
+// customer support 
+const CustomerSupportListPage = lazy(() => import('src/pages/Uslot/customerSupport/lsit'));
+
 // BLOG
 const BlogPostsPage = lazy(() => import('src/pages/dashboard/post/list'));
 const BlogPostPage = lazy(() => import('src/pages/dashboard/post/details'));
@@ -112,6 +117,10 @@ export const dashboardRoutes = [
       { path: 'coupon-code-management/new', element: <CouponCodeCreatePage /> }, // /dashboard/usermanagement/new
       { path: 'coupon-code-management/:id/edit', element: <CouponCodeEditPage /> },
 
+
+      // customer support
+
+      { path: 'customer-support', element: <CustomerSupportListPage /> },
 
 
       {

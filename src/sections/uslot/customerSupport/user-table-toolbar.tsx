@@ -1,59 +1,36 @@
 import { useCallback } from 'react';
-// @mui
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-// types
-import { IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
-// components
+import { IUserTableFilterValue } from 'src/types/user';
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { CouponCodeItem } from 'src/types/user';
-
-// ----------------------------------------------------------------------
-
+import MenuItem from '@mui/material/MenuItem';
 type Props = {
-  filters: CouponCodeItem;
-  onFilters: (name: string, value: IOrderTableFilterValue) => void;
-  //
-  canReset: boolean;
-  onResetFilters: VoidFunction;
+  filters: { searchKey: string; currTab: string };
+  onFilters: (name: string, value: IUserTableFilterValue) => void;
+  roleOptions: string[];
+  setFilters: any;
 };
 
-export default function UserTableToolbar({
+export default function UserManagementTableToolbar({
   filters,
   onFilters,
-  //
-  canReset,
-  onResetFilters,
+  setFilters,
+  roleOptions,
 }: Props) {
   const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFilters({ ...filters, searchKey: event.target.value });
       onFilters('name', event.target.value);
     },
     [onFilters]
   );
 
-  const handleFilterStartDate = useCallback(
-    (newValue: Date | null) => {
-      onFilters('startDate', newValue);
-    },
-    [onFilters]
-  );
 
-  const handleFilterEndDate = useCallback(
-    (newValue: Date | null) => {
-      onFilters('endDate', newValue);
-    },
-    [onFilters]
-  );
-
+  
   return (
     <>
       <Stack
@@ -68,36 +45,12 @@ export default function UserTableToolbar({
           pr: { xs: 2.5, md: 1 },
         }}
       >
-        {/* <DatePicker
-          label="Start date"
-          value={filters.startDate}
-          onChange={handleFilterStartDate}
-          slotProps={{
-            textField: {
-              fullWidth: true,
-            },
-          }}
-          sx={{
-            maxWidth: { md: 200 },
-          }}
-        />
-
-        <DatePicker
-          label="End date"
-          value={filters.endDate}
-          onChange={handleFilterEndDate}
-          slotProps={{ textField: { fullWidth: true } }}
-          sx={{
-            maxWidth: { md: 200 },
-          }}
-        /> */}
-
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
           <TextField
             fullWidth
-            value={filters.name}
+            value={filters.searchKey}
             onChange={handleFilterName}
-            placeholder="Search User Name"
+            placeholder="Search..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -106,22 +59,7 @@ export default function UserTableToolbar({
               ),
             }}
           />
-
-          {/* <IconButton onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton> */}
         </Stack>
-
-        {canReset && (
-          <Button
-            color="error"
-            sx={{ flexShrink: 0 }}
-            onClick={onResetFilters}
-            startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
-          >
-            Clear
-          </Button>
-        )}
       </Stack>
 
       <CustomPopover

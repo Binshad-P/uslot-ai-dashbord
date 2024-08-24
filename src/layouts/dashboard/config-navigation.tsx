@@ -108,7 +108,15 @@ export function useNavData() {
               // { title: t('account'), path: paths.dashboard.user.account },
             ],
           },
-       
+
+          //customer support 
+          
+          {
+            title: t('Customer Support'),
+            path: uslotPath.customersupport,
+            icon: ICONS.user,
+            children: [{ title: t('Customer Support'), path: uslotPath.customersupport }],
+          },
 
           // PRODUCT
           // {
@@ -124,7 +132,6 @@ export function useNavData() {
           // },
 
           // ORDER
-       
 
           // INVOICE
           // {

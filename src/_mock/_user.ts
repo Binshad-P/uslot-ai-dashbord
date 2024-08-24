@@ -12,6 +12,14 @@ export const USER_STATUS_OPTIONS = [
   { value: 'rejected', label: 'Rejected' },
 ];
 
+
+
+export const Demo_STATUS_OPTIONS = [
+  { value: 'pending', label: 'Today' },
+  { value: 'banned', label: 'Pending' },
+  { value: 'active', label: 'Resolved' },
+];
+
 export const _userAbout = {
   id: _mock.id(1),
   role: _mock.role(1),

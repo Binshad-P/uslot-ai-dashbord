@@ -189,4 +189,9 @@ export const uslotPath = {
   couponcodemanagment: '/dashboard/coupon-code-management',
   newcouponcodemanagment: '/dashboard/coupon-code-management/new',
   edit: (id?: string) => `/dashboard/coupon-code-management/${id}/edit`,
+
+  customersupport: '/dashboard/customer-support',
+
+
+
 };
